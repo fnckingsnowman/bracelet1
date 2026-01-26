@@ -1,0 +1,3 @@
+[submodule "deps/lsm6ds3-module"]
+	path = deps/lsm6ds3-module
+	url = https://github.com/iwasz/example-zephyr-module.git

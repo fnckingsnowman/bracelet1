@@ -1,0 +1,40 @@
+/* LSM6DS3 Sensor Device Tree Overlay */
+
+/* Configure I2C pins if not already set */
+&pinctrl {
+    i2c0_default: i2c0_default {
+        group1 {
+            psels = <NRF_PSEL(TWIM_SDA, 0, 26)>,  /* P0.26 for SDA */
+                    <NRF_PSEL(TWIM_SCL, 0, 27)>;  /* P0.27 for SCL */
+        };
+    };
+
+    i2c0_sleep: i2c0_sleep {
+        group1 {
+            psels = <NRF_PSEL(TWIM_SDA, 0, 26)>,
+                    <NRF_PSEL(TWIM_SCL, 0, 27)>;
+            low-power-enable;
+        };
+    };
+};
+
+/* Enable and configure I2C bus */
+&i2c0 {
+    compatible = "nordic,nrf-twim";
+    status = "okay";
+    clock-frequency = <I2C_BITRATE_FAST>;  /* 400 kHz */
+    
+    pinctrl-0 = <&i2c0_default>;
+    pinctrl-1 = <&i2c0_sleep>;
+    pinctrl-names = "default", "sleep";
+
+    /* LSM6DS3 using LSM6DSO driver */
+    lsm6ds3: lsm6dso@6b {
+        compatible = "st,lsm6dso";  /* Use LSM6DSO driver */
+        reg = <0x6b>;                /* I2C address 0x6B */
+        status = "okay";
+        
+        /* Optional: If using interrupt pin */
+        /* irq-gpios = <&gpio0 28 GPIO_ACTIVE_HIGH>; */
+    };
+};

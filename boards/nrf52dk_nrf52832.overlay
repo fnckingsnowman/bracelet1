@@ -37,4 +37,11 @@
         /* Optional: If using interrupt pin */
         /* irq-gpios = <&gpio0 28 GPIO_ACTIVE_HIGH>; */
     };
+
+    //max30102 heart beat sensor
+    max30102: max30101@57 {
+        compatible = "maxim,max30101"; // using the existing max30101 driver for the max30102 sensor
+        reg = <0x57>; // address
+        status = "okay";
+    };
 };
